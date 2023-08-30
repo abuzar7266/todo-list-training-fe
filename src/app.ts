@@ -7,7 +7,6 @@ var MongoDbStore = require("connect-mongo");
 var dotenv = require("dotenv");
 var passport = require("passport");
 var DB =  require('./connectDB');
-var appPath = require("./utils");
 var server = require('./createServer');
 var userRouter = require('./routes/userRouter');
 var todoRouter = require('./routes/todoRouter');
