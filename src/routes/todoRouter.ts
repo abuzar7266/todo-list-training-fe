@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
-var authenticate = require("../auth");
-var TodoController = require("../controllers/todoController");
+require('module-alias/register');
+var authenticate = require("@root/auth");
+var TodoController = require("@controllers/todoController");
 
 router.use(bodyParser.json());
 

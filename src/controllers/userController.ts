@@ -1,8 +1,9 @@
 
 import {Request, Response} from 'express';
 var passport = require("passport");
-var User = require("../models/userSchema");
-var authenticate = require("../auth");
+require('module-alias/register');
+var User = require("@models/userSchema");
+var authenticate = require("@root/auth");
 
 interface authResponse{
     status?: string,
@@ -40,6 +41,9 @@ const signup = (req: Request<{}, {}, authRequest>, res: Response<authResponse>) 
         }
       );
 }
+
+
+
 const login = (req: any, res: Response<authResponse>) => {
   const token = authenticate.getToken({ _id: req.user._id });
   return res.json({ token });

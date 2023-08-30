@@ -23,6 +23,7 @@
     "http-errors": "^2.0.0",
     "jade": "^1.11.0",
     "jsonwebtoken": "^9.0.1",
+    "module-alias": "^2.2.3",
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
@@ -31,5 +32,11 @@
     "passport-local-mongoose": "^8.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "_moduleAliases": {
+    "@root": "./src",
+    "@controllers": "./src/controllers",
+    "@models": "./src/models",
+    "@routes": "./src/routes"
   }
 }

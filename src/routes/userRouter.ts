@@ -2,7 +2,8 @@ var express = require("express");
 var userRouter = express.Router();
 var bodyParser = require("body-parser");
 var passport = require("passport");
-const userController = require("../controllers/userController");
+require('module-alias/register');
+const userController = require("@controllers/userController");
 
 userRouter.use(bodyParser.json());
 

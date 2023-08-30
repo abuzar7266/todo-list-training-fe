@@ -6,10 +6,11 @@ var cors = require("cors");
 var MongoDbStore = require("connect-mongo");
 var dotenv = require("dotenv");
 var passport = require("passport");
-var DB =  require('./connectDB');
-var server = require('./createServer');
-var userRouter = require('./routes/userRouter');
-var todoRouter = require('./routes/todoRouter');
+require('module-alias/register');
+var DB =  require('@root/connectDB');
+var server = require('@root/createServer');
+var userRouter = require('@routes/userRouter');
+var todoRouter = require('@routes/todoRouter');
 var app = express();
 
 // Define environment variable

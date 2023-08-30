@@ -1,6 +1,7 @@
 import mongoose, { Error } from "mongoose";
 import express, { Request, Response } from "express";
-var TodoSchema = require("../models/todoSchema");
+require('module-alias/register');
+var TodoSchema = require("@models/todoSchema");
 interface TodoList {
   _id: mongoose.Schema.Types.ObjectId;
   description: string;
