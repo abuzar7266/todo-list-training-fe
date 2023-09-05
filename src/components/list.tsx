@@ -4,7 +4,6 @@ import { IListProps, IEditState } from "../interfaces";
 import "assets/css/list.css";
 
 const List: React.FC<IListProps> = ({ taskList, loading, idTodo }) => {
-
   const [state, setState] = useState<IEditState>({
     id: "",
     isEditable: 0,

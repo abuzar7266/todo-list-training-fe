@@ -4,7 +4,7 @@ import { IInitialTodoState, IItem } from "interfaces";
 const initialState: IInitialTodoState = {
   taskList: [],
   loading: false,
-  id: ''
+  id: "",
 };
 
 function removeTodoById(taskList: IItem[], Tid: string) {
@@ -12,7 +12,7 @@ function removeTodoById(taskList: IItem[], Tid: string) {
 }
 function updateTodoById(taskList: IItem[], updatedTask: IItem) {
   var index = taskList.findIndex(({ id }) => id === updatedTask.id);
-  taskList[index] = {...updatedTask};
+  taskList[index] = { ...updatedTask };
   return taskList;
 }
 
@@ -24,30 +24,33 @@ export const todoSlice = createSlice({
       return {
         ...state,
         taskList: [...action.payload],
-        id: '',
-        loading: false
+        id: "",
+        loading: false,
       };
     },
-    deleteTaskSuccess: (state, action )=>{
+    deleteTaskSuccess: (state, action) => {
       var { id } = action.payload;
       return {
         ...state,
         taskList: [...removeTodoById([...state.taskList], id)],
         loading: false,
-        id: ''
+        id: "",
       };
     },
-    updateTaskSuccess: (state, action )=>{
+    updateTaskSuccess: (state, action) => {
       var { description, id, isChecked } = action.payload;
       return {
         ...state,
-        taskList:
-        updateTodoById([...state.taskList], { description, id, isChecked }),
+        taskList: updateTodoById([...state.taskList], {
+          description,
+          id,
+          isChecked,
+        }),
         loading: false,
-        id: ''
+        id: "",
       };
     },
-    addTaskSuccess: (state, action )=>{
+    addTaskSuccess: (state, action) => {
       var { description, id, isChecked } = action.payload;
       return {
         ...state,
@@ -56,20 +59,20 @@ export const todoSlice = createSlice({
           { description: description, id: id, isChecked: isChecked },
         ],
         loading: false,
-        id: ''
+        id: "",
       };
     },
-    updateFailure: (state) =>{
-      alert('Failed to update item');
-      return {...state, loading: false, id: ''}
+    updateFailure: (state) => {
+      alert("Failed to update item");
+      return { ...state, loading: false, id: "" };
     },
-    addFailure: (state) =>{
-      alert('Failed to add item');
-      return {...state, loading: false, id: ''}
+    addFailure: (state) => {
+      alert("Failed to add item");
+      return { ...state, loading: false, id: "" };
     },
-    deleteFailure: (state) =>{
-      alert('Failed to delete item');
-      return {...state, loading: false, id: ''}
+    deleteFailure: (state) => {
+      alert("Failed to delete item");
+      return { ...state, loading: false, id: "" };
     },
     fetchTodo: (state) => {
       state.loading = true;
@@ -104,6 +107,6 @@ export const {
   updateTaskSuccess,
   addFailure,
   updateFailure,
-  deleteFailure
+  deleteFailure,
 } = todoSlice.actions;
 export default todoSlice.reducer;
