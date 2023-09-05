@@ -31,7 +31,7 @@ const Login: React.FC<ILoginProps> = ({
     reset();
   };
   useEffect(() => {
-    logoutRequest({});
+    logoutRequest();
   }, []);
   useEffect(() => {
     if (user.state === 1) {

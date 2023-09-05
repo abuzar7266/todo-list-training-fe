@@ -37,7 +37,7 @@ const Signup: React.FC<ISignupProps> = ({
   useEffect(() => {
     if (user.state === 3) {
       reset();
-      refresh({});
+      refresh();
       window.location.href = "/auth";
     }
   }, [user]);
