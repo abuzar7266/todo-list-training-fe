@@ -6,11 +6,11 @@ var Schema = mongoose.Schema;
 var User = new Schema({
   firstName: {
     type: String,
-    default: "Anonymous",
+    required: true,
   },
   lastName: {
     type: String,
-    default: "User",
+    required: true,
   },
   email: {
     type: String,

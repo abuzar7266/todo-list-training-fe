@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Error, Mongoose } from "mongoose";
 var passport = require("passport");
 require("module-alias/register");
 var User = require("@models/userSchema");
@@ -29,11 +30,11 @@ const signup = (
       email: req.body.email,
     }),
     req.body.password,
-    (err: any) => {
-      if (err.status ?? 0) {
+    (err: Error) => {
+      if (err) {
         res.statusCode = 500;
         res.setHeader("Content-Type", "application/json");
-        res.json({ status: err });
+        res.json({ status: err.message });
       } else {
         passport.authenticate("local")(req, res, () => {
           res.statusCode = 200;

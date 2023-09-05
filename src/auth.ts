@@ -8,40 +8,39 @@ require("module-alias/register");
 const userControllers = require("@controllers/userController");
 const userSchema = require("@models/userSchema");
 
-interface IOptsFormat {
-  jwtFromRequest: string;
-  secretOrKey: string;
-}
-
-var opts: IOptsFormat = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "ahsdjhasdhagsjdgajsdgjhagsdjhgasdhgajhsgdjhagsdhgasd",
-};
-
-exports.getToken = function (user: any) {
-  return jwt.sign(user, process.env.SESSION_SECRET, { expiresIn: 3600 });
-};
-
 passport.use(new LocalStrategy(userSchema.authenticate()));
 passport.serializeUser(userSchema.serializeUser());
 passport.deserializeUser(userSchema.deserializeUser());
 
-exports.jwtPassport = passport.use(
-  new JwtStrategy(opts, async function fetchCredential(
-    jwt_payload: any,
-    done: any
-  ) {
-    await userSchema
-      .findOne({ _id: jwt_payload._id })
-      .then((res: any) => {
-        if (res) return done(null, res);
-        else return done(null, false);
-      })
-      .catch((err: any) => {
-        return done(err, false);
-      });
-  })
+const getToken = function (user: any) {
+  return jwt.sign(user, process.env.SESSION_SECRET, { expiresIn: 3600 });
+};
+
+const jwtPassport = passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: "ahsdjhasdhagsjdgajsdgjhagsdjhgasdhgajhsgdjhagsdhgasd",
+    },
+    async function fetchCredential(jwt_payload: any, done: any) {
+      await userSchema
+        .findOne({ _id: jwt_payload._id })
+        .then((res: any) => {
+          if (res) return done(null, { _id: res._id });
+          else return done(null, false);
+        })
+        .catch((err: any) => {
+          return done(err, false);
+        });
+    }
+  )
 );
 
-exports.verifyUser = passport.authenticate("jwt", { session: false });
+const verifyUser = passport.authenticate("jwt", { session: false });
+
+module.exports = {
+  getToken,
+  jwtPassport,
+  verifyUser,
+};
 // End of File
