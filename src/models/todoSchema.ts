@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
+
 var Schema = mongoose.Schema;
+
 var TodoSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +24,6 @@ var TodoSchema = new Schema({
     default: Date.now(),
   },
 });
-module.exports = mongoose.model("Todo", TodoSchema);
 
+module.exports = mongoose.model("Todo", TodoSchema);
 // End of File

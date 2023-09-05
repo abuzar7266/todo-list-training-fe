@@ -6,27 +6,23 @@ var cors = require("cors");
 var MongoDbStore = require("connect-mongo");
 var dotenv = require("dotenv");
 var passport = require("passport");
-require('module-alias/register');
-var DB =  require('@root/connectDB');
-var server = require('@root/createServer');
-var userRouter = require('@routes/userRouter');
-var todoRouter = require('@routes/todoRouter');
+require("module-alias/register");
+var DB = require("@root/connectDB");
+var server = require("@root/createServer");
+var userRouter = require("@routes/userRouter");
+var todoRouter = require("@routes/todoRouter");
+
 var app = express();
 
-// Define environment variable
 dotenv.config({ path: "./.env" });
 
 DB.connectDB();
 
-// view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, "public")));
 
 // Define session policy, cookie store and cookie expiration
@@ -44,12 +40,8 @@ app.use(
   })
 );
 
-
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 app.use(
   cors({
@@ -64,7 +56,6 @@ app.use("/user", userRouter);
 app.use(function (err: any, req: any, res: any, next: any) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
   res.status(err.status || 500);
   res.render("error");
 });
@@ -72,3 +63,5 @@ app.use(function (err: any, req: any, res: any, next: any) {
 // Server Creation Section
 
 server.CreateServer(app);
+
+// End of file
