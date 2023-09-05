@@ -1,55 +1,57 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import LogoutIcon from "@mui/icons-material/Logout";
-import List from "../components/list";
-import { addTask, fetchTodo } from "../redux/feature/todo/todoSlice";
-import { TaskInput } from "interfaces";
-import "../assets/css/todo.css";
+import { addTask, fetchTodo } from "redux/feature/todo/todoSlice";
+import { ITaskInput } from "interfaces";
+import TodoListContainer from "containers/todoContainers/todoListContainer";
+import "assets/css/todo.css";
+
+interface ITodoProps {
+  fetchTodo: typeof fetchTodo;
+  addTask: typeof addTask;
+}
 
 const schema = yup
   .object({
-    task: yup.string().min(5).max(30).required(),
+    description: yup.string().min(5).max(30).required(),
   })
   .required();
-const Todo: React.FC = () => {
-  const dispatch = useDispatch();
+
+const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isSubmitted },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-    } else {
-      navigate("/");
-    }
-
-    dispatch(fetchTodo({}));
-  }, []);
-
-  const onSubmitHandler = (e: TaskInput) => {
-    dispatch(addTask(e["task"]));
+  const onSubmitHandler = (e: ITaskInput) => {
+    addTask(e["description"]);
     reset();
   };
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/auth");
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+    } else navigate("/");
+    fetchTodo();
+  }, [navigate, fetchTodo]);
+
   return (
     <>
       {
         <div>
-          <Container className="container" fluid>
+          <Container className="container">
             <span>
               <LogoutIcon
                 style={{
@@ -64,15 +66,15 @@ const Todo: React.FC = () => {
             <form action="" onSubmit={handleSubmit(onSubmitHandler)}>
               <div className="task-card">
                 <h1 className="task-card-heading">My Todo</h1>
+                { errors.description && isDirty && isSubmitted && <p className="item-field-error">{errors.description?.message}</p>}
                 <input
                   placeholder="Input task name and then enter to add"
                   type="text"
                   className="task-field"
-                  {...register("task")}
+                  {...register("description")}
                 />
-                <p className="text-danger">{errors.task?.message}</p>
                 <hr className="list-endline" />
-                <List />
+                <TodoListContainer />
               </div>
             </form>
           </Container>
@@ -81,5 +83,5 @@ const Todo: React.FC = () => {
     </>
   );
 };
-// export default Todo;
+
 export default Todo;

@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,25 +7,20 @@ import { SquareOutlined } from "@mui/icons-material";
 import { CheckBox } from "@mui/icons-material";
 import { Edit } from "@mui/icons-material";
 import { Delete } from "@mui/icons-material";
-import { ListItemProps, UpdateInput } from "../interfaces";
-import {
-  updateTask,
-  deleteTask,
-  taskMarkdone,
-} from "redux/feature/todo/todoSlice";
-import "../assets/css/listItem.css";
+import { IListItemProps, IUpdateInput } from "../interfaces";
+import "assets/css/listItem.css";
+
 
 const listItemSchema = yup
   .object({
     description: yup.string().min(5).max(30).required(),
   })
   .required();
-const ListItem: React.FC<ListItemProps> = ({ task, state, handleEditable }) => {
-  const dispatch = useDispatch();
+const ListItem: React.FC<IListItemProps> = ({ task, state, handleEditable, updateTask, deleteTask, taskMarkDone}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
     setValue,
   } = useForm({
@@ -36,53 +30,47 @@ const ListItem: React.FC<ListItemProps> = ({ task, state, handleEditable }) => {
     handleEditable("", 0);
   }, [task]);
 
-  const onSubmitHandler = (e: UpdateInput) => {
-    dispatch(
-      updateTask({
+  const onSubmitHandler = (e: IUpdateInput) => {
+    updateTask({
         id: task.id,
         description: e["description"],
       })
-    );
     handleEditable("", !state.isEditable);
     reset();
   };
 
   return (
     <tr style={{ border: "1px solid black" }}>
-      <td style={{ width: "150vw" }}>
+      <td className="item-spacing">
         <div id={task.id} style={{ display: "flex" }}>
           {!task.isChecked ? (
             <SquareOutlined
               className="icon-format"
               onClick={() => {
-                dispatch(
-                  taskMarkdone({ id: task.id, isChecked: !task.isChecked })
-                );
+                taskMarkDone({ id: task.id, isChecked: !task.isChecked })
               }}
             />
           ) : (
             <CheckBox
               className="icon-format"
               onClick={() => {
-                dispatch(
-                  taskMarkdone({ id: task.id, isChecked: !task.isChecked })
-                );
+                taskMarkDone({ id: task.id, isChecked: !task.isChecked })
               }}
             />
           )}
           {state.isEditable && task.id === state.id ? (
             <form onSubmitCapture={handleSubmit(onSubmitHandler)} id={task.id}>
               <input type="text" {...register("description")} />
-              <p className="text-danger">{errors.description?.message}</p>
+              { isDirty && <p style={{color: 'red'}}>{errors.description?.message}</p> }
             </form>
           ) : (
-            <span className={task.isChecked ? "task-text" : ""}>
+            <span className={task.isChecked ? "checked-task-text" : "task-text"}>
               {task.description}
             </span>
           )}
         </div>
       </td>
-      <td style={{ width: "10vw" }}>
+      <td>
         <Edit
           className="icon-format"
           onClick={(e) => {
@@ -96,10 +84,12 @@ const ListItem: React.FC<ListItemProps> = ({ task, state, handleEditable }) => {
             }
           }}
         />
+      </td>
+      <td>
         <Delete
           className="icon-format"
           onClick={() => {
-            dispatch(deleteTask(task.id));
+            deleteTask(task.id);
             reset();
           }}
         />
@@ -107,5 +97,4 @@ const ListItem: React.FC<ListItemProps> = ({ task, state, handleEditable }) => {
     </tr>
   );
 };
-
 export default ListItem;

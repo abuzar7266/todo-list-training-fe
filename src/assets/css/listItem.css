@@ -1,5 +1,4 @@
 .column-1 {
-  padding: 15px;
   border-bottom: 1px solid black;
   display: flex;
 }
@@ -7,9 +6,20 @@
   text-align: right;
 }
 .icon-format {
-  font-size: 13px;
   cursor: pointer;
 }
-.task-text {
+.checked-task-text {
   text-decoration: line-through;
+  font-size: 2vh;
+}
+.task-text{
+  font-size: 2vh;
+}
+.item-spacing{
+  width: 50vw;
+}
+@media (max-width: 250px) {
+  .item-spacing{
+    width: 60vw;
+  }
 }

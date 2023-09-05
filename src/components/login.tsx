@@ -1,12 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { RootState } from "redux/store";
-import { login, refresh, logout } from "redux/feature/auth/authSlice";
-import { LoginInput, LoginProps } from "../interfaces";
+import { ILoginInput, ILoginProps } from "../interfaces";
 const schema = yup
   .object({
     username: yup.string().min(5).max(16).required(),
@@ -14,73 +11,83 @@ const schema = yup
   })
   .required();
 
-const mapStateToProps = (state: RootState) => ({
-  user: state.user,
-});
-
-const Login: React.FC<LoginProps> = (props) => {
-  const dispatch = useDispatch();
+const Login: React.FC<ILoginProps> = ({
+  user,
+  loginRequest,
+  logoutRequest,
+  refresh,
+  setAuth,
+}) => {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmitHandler = (e: LoginInput) => {
-    dispatch(login(e));
+  const onSubmitHandler = (e: ILoginInput) => {
+    loginRequest(e);
     reset();
   };
   useEffect(() => {
-    dispatch(logout({}));
+    logoutRequest({});
   }, []);
   useEffect(() => {
-    if (props.user.state === 1) {
-      localStorage.setItem("token", props.user.token);
-      dispatch(refresh({}));
+    if (user.state === 1) {
+      localStorage.setItem("token", user.token);
+      refresh();
       window.location.href = "/todo";
     }
-  }, [props.user.state]);
+  }, [user.state]);
   return (
     <>
       <div className="card">
         <div className="card-header">
           <h1 className="header-form">Login</h1>
-          {!isDirty ||
-            (!isValid && (
-              <p className="alert alert-sm alert-danger">
-                Username or password is not valid
-              </p>
-            ))}
         </div>
-        <form action="" onSubmitCapture={handleSubmit(onSubmitHandler)}>
+        <form onSubmitCapture={handleSubmit(onSubmitHandler)}>
           <div className="card-body">
+            <label htmlFor="" className="login-form-label">
+              Username
+              {errors.username && (
+                <p className="auth-field-error">{errors.username?.message}</p>
+              )}
+            </label>
             <input
               type="text"
-              className="demographic-field"
+              className={
+                errors.username
+                  ? "demographic-field-danger"
+                  : "demographic-field"
+              }
               placeholder="Username"
               {...register("username")}
             />
+            <label htmlFor="" className="login-form-label">
+              Password
+              {errors.password && (
+                <p className="auth-field-error">{errors.password?.message}</p>
+              )}
+            </label>
             <input
               type="password"
-              className="demographic-field"
+              className={
+                errors.password
+                  ? "demographic-field-danger"
+                  : "demographic-field"
+              }
               placeholder="Password"
               {...register("password")}
             />
           </div>
-          <input
-            type="submit"
-            className="submit"
-            value="Login"
-            disabled={!isDirty || !isValid}
-          />
+          <input type="submit" className="submit" value="Login" />
         </form>
         <div className="submit-btn">
           <button
             className="move-btn"
             onClick={() => {
-              props.setAuth();
+              setAuth();
             }}
           >
             Go to Signup Page
@@ -91,4 +98,4 @@ const Login: React.FC<LoginProps> = (props) => {
   );
 };
 // export default Login;
-export default connect(mapStateToProps)(Login);
+export default Login;

@@ -1,75 +1,97 @@
-export interface TaskItem {
+
+export interface ITaskItem {
   description: string;
   isChecked: number;
   id: string;
 }
-export interface EditState {
+
+export interface IEditState {
   isEditable: number;
   id: string;
 }
-export interface ListProps {
-  taskList: TaskItem[];
+
+export interface IListProps {
+  taskList: ITaskItem[];
+  loading: boolean;
+  idTodo: string;
 }
-export interface UpdateInput {
+
+export interface IUpdateInput {
   description: string;
 }
-export interface ListItemProps {
-  task: TaskItem;
-  state: EditState;
+
+export interface IListItemProps {
+  task: ITaskItem;
+  state: IEditState;
+  updateTask: any;
+  deleteTask: any;
+  taskMarkDone: any;
   handleEditable: any;
 }
 
-export interface User {
+export interface IUser {
   login: boolean;
   token: string;
   state: number;
   msg: string;
 }
-export interface LoginInput {
+
+export interface ILoginInput {
   username: string;
   password: string;
 }
-export interface LoginProps {
-  user: User;
+
+export interface ILoginProps {
+  user: IUser;
   setAuth: any;
+  loginRequest?: any;
+  logoutRequest?: any;
+  refresh?: any;
 }
-export interface SignupInput {
+
+export interface ISignupInput {
   username: string;
   password: string;
   email: string;
   firstName: string;
   lastName: string;
 }
-export interface SignupProps {
-  user: User;
+export interface ISignupProps {
+  user: IUser;
   setAuth: any;
-}
-export interface TaskInput {
-  task: string;
+  signupRequest: any;
+  refresh: any;
 }
 
-export interface Credential {
+export interface ITaskInput {
+  description: string;
+}
+
+export interface ICredential {
   username: string;
   password: string;
   email?: string;
   firstName?: string;
   lastName?: string;
 }
-export interface AuthAction {
-  payload: Credential;
+
+export interface IAuthAction {
+  payload: ICredential;
   type: string;
 }
 
-export interface TodoAction {
+export interface ITodoAction {
   type: string;
-  payload: TaskItem;
+  payload: ITaskItem;
 }
 
-export interface Item {
+export interface IItem {
   description: string;
   isChecked: number;
   id: string;
 }
-export interface InitialTodoState {
-  taskList: Item[];
+export interface IInitialTodoState {
+  taskList: IItem[];
+  loading: boolean;
+  id: string;
 }

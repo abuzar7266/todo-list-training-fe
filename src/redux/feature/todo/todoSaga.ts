@@ -1,7 +1,9 @@
 import { call, put } from "redux-saga/effects";
-import { fetchTodoSuccess } from "./todoSlice";
+import { fetchTodoSuccess, addTaskSuccess, updateTaskSuccess, deleteTaskSuccess, addFailure, updateFailure, deleteFailure } from "redux/feature/todo/todoSlice";
 import { apiCallRequest } from "redux/api";
-import { TodoAction } from "interfaces";
+import { ITodoAction } from "interfaces";
+
+
 export function* FETCH_TODO(): Generator<any, void, any> {
   const todo = yield call(() => apiCallRequest("/", "GET"));
   yield put(
@@ -15,29 +17,52 @@ export function* FETCH_TODO(): Generator<any, void, any> {
     )
   );
 }
-export function* POST_ADD_TODO(action: TodoAction): Generator<any, void, any> {
-  yield call(() =>
-    apiCallRequest("/", "POST", { description: action.payload })
-  );
-  yield call(FETCH_TODO);
+
+export function* POST_ADD_TODO(action: ITodoAction): Generator<any, void, any> {
+    var data = yield call(() =>
+      apiCallRequest("/", "POST", { description: action.payload })
+    );
+    if(data.status===true){
+      var { description, _id, isChecked } = data.todo;
+      yield put(addTaskSuccess({description: description, id: _id, isChecked: isChecked}));
+    }else{
+      yield put(addFailure());
+    }
 }
-export function* UPDATE_TODO(action: TodoAction): Generator<any, void, any> {
-  yield call(() =>
+
+export function* UPDATE_TODO(action: ITodoAction): Generator<any, void, any> {
+  var data = yield call(() =>
     apiCallRequest(`/${action.payload.id}`, "PUT", {
       description: action.payload.description,
     })
   );
-  yield call(FETCH_TODO);
+  if(data.status===true){
+    var { description, _id, isChecked } = data.todo;
+    yield put(updateTaskSuccess({description: description, id: _id, isChecked: isChecked}));
+  } else{
+    yield put(updateFailure());
+  }
 }
-export function* MARK_DONE_TODO(action: TodoAction) {
-  yield call(() =>
+export function* MARK_DONE_TODO(action: ITodoAction): Generator<any, void, any> {
+  var data = yield call(() =>
     apiCallRequest(`/${action.payload.id}`, "PUT", {
       isChecked: action.payload.isChecked,
     })
   );
-  yield call(FETCH_TODO);
+  if(data.status){
+    var { description, _id, isChecked } = data.todo;
+    yield put(updateTaskSuccess({description: description, id: _id, isChecked: isChecked}));
+  }else{
+    console.log('Hello');
+    yield put(updateFailure());
+  }
+  
 }
-export function* DELETE_TODO(action: TodoAction): Generator<any, void, any> {
-  yield call(() => apiCallRequest(`/${action.payload}`, "DELETE"));
-  yield call(FETCH_TODO);
+
+export function* DELETE_TODO(action: ITodoAction): Generator<any, void, any> {
+  var data = yield call(() => apiCallRequest(`/${action.payload}`, "DELETE"));
+  if(data.status)
+    yield put(deleteTaskSuccess({id: action.payload}));
+  else
+    yield put(deleteFailure());
 }

@@ -1,34 +1,37 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import ListItem from "./listItem";
-import { RootState } from "redux/store";
-import { ListProps, EditState } from "../interfaces";
-import "../assets/css/list.css";
+import ListItem from "containers/todoContainers/todoItemContainer";
+import { IListProps, IEditState } from "../interfaces";
+import "assets/css/list.css";
 
-const mapStateToProps = (state: RootState) => ({
-  taskList: state.todo.taskList,
-});
+const List: React.FC<IListProps> = ({ taskList, loading, idTodo }) => {
 
-const List: React.FC<ListProps> = ({ taskList }) => {
-  const [state, setState] = useState<EditState>({
+  const [state, setState] = useState<IEditState>({
     id: "",
     isEditable: 0,
   });
+
   const handleEditable = (id: string, isEditable: number) => {
     setState({ id: id, isEditable: isEditable });
   };
+
   return (
     <>
       <table className="table table-sm list-block">
         <tbody className="list-body">
           {taskList.map((data, idx) => {
             return (
-              <ListItem
-                key={idx}
-                task={data}
-                state={state}
-                handleEditable={handleEditable}
-              />
+              <div className="todo-item">
+                {loading && idTodo === data.id ? (
+                  <p>Loading the item...</p>
+                ) : (
+                  <ListItem
+                    key={idx}
+                    task={data}
+                    state={state}
+                    handleEditable={handleEditable}
+                  />
+                )}
+              </div>
             );
           })}
         </tbody>
@@ -36,5 +39,5 @@ const List: React.FC<ListProps> = ({ taskList }) => {
     </>
   );
 };
-// export default List;
-export default connect(mapStateToProps)(List);
+
+export default List;

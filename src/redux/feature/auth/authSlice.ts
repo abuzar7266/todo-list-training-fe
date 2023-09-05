@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface User {
+interface IUser {
   login: boolean;
   token: string;
   state: number;
   msg: string;
 }
-const initialState: User = {
+const initialState: IUser = {
   login: false,
   token: "",
   state: 0,
@@ -17,16 +17,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action) => {
-      return {
-        ...state,
-      };
-    },
-    signup: (state, action) => {
-      return {
-        ...state,
-      };
-    },
+    login: (state, action) => {},
+    signup: (state, action) => {},
     loginSuccess: (state, action) => {
       return {
         ...state,
@@ -35,26 +27,26 @@ export const authSlice = createSlice({
         state: 1,
       };
     },
-    loginFailure: (state, action) => {
+    loginFailure: (state) => {
       alert("Incorrect username or password");
       return { ...state, state: 2 };
     },
-    signupSuccess: (state, action) => {
+    signupSuccess: (state) => {
       alert("Successfuly created an account");
       return { ...state, state: 3 };
     },
-    signupFailure: (state, action) => {
+    signupFailure: (state) => {
       alert("Failed to create an account");
       return { ...state, state: 4 };
     },
-    refresh: (state, action) => {
+    refresh: (state) => {
       return {
         ...state,
         state: 0,
         msg: "",
       };
     },
-    logout: (state, action) => {
+    logout: () => {
       localStorage.removeItem("token");
       return {
         login: false,
@@ -65,6 +57,7 @@ export const authSlice = createSlice({
     },
   },
 });
+
 export const {
   login,
   signup,

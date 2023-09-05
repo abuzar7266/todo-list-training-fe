@@ -6,9 +6,9 @@ import {
   signupFailure,
 } from "redux/feature/auth/authSlice";
 import { apiCallRequest } from "redux/api";
-import { AuthAction } from "interfaces";
+import { IAuthAction } from "interfaces";
 
-export function* LOGIN(action: AuthAction): Generator<any, void, any> {
+export function* LOGIN(action: IAuthAction): Generator<any, void, any> {
   console.log(action);
   const response = yield call(() =>
     apiCallRequest("/user/login", "POST", action.payload)
@@ -17,21 +17,17 @@ export function* LOGIN(action: AuthAction): Generator<any, void, any> {
   if (response.token ?? 0) {
     yield put(loginSuccess({ token: response.token }));
   } else {
-    yield put(loginFailure({}));
+    yield put(loginFailure());
   }
 }
-export function* SIGNUP(action: AuthAction): Generator<any, void, any> {
+
+export function* SIGNUP(action: IAuthAction): Generator<any, void, any> {
   const response = yield call(() =>
     apiCallRequest("/user/signup", "POST", action.payload)
   );
   if (response.success ?? 0) {
-    yield put(signupSuccess({}));
+    yield put(signupSuccess());
   } else {
-    yield put(signupFailure({}));
+    yield put(signupFailure());
   }
 }
-
-export default {
-  LOGIN,
-  SIGNUP,
-};
