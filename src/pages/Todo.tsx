@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   TextField,
@@ -19,9 +19,9 @@ const schema = yup
   .object({
     description: yup
       .string()
+      .required("Description is required")
       .min(5, "Description must be at least 5 characters")
-      .max(30, "Description must not exceed 30 characters")
-      .required("Description is required"),
+      .max(30, "Description must not exceed 30 characters"),
   })
   .required();
 
@@ -30,13 +30,11 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isSubmitted },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  const [newTask, setNewTask] = useState("");
 
   const onSubmitHandler = (e: ITaskInput) => {
     addTask(e.description);
@@ -49,18 +47,9 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/");
-    }
+    if (!localStorage.getItem("token")) navigate("/");
     fetchTodo();
   }, [navigate, fetchTodo]);
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && newTask.trim() !== "") {
-      addTask(newTask.trim());
-      setNewTask("");
-    }
-  };
 
   return (
     <Container
@@ -90,12 +79,11 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
               My Todo
             </Typography>
           </Box>
-          <form action="" onSubmit={handleSubmit(onSubmitHandler)}>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <TextField
               label="Input task name and press Enter to add"
               variant="outlined"
               fullWidth
-              onKeyPress={handleKeyPress}
               margin="normal"
               error={!!errors.description}
               helperText={errors.description?.message}

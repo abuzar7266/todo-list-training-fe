@@ -5,14 +5,11 @@ import {
   Container,
   Grid,
   Paper,
-  Button,
 } from "@mui/material"; // Import MUI components
 import { createTheme } from "@mui/material/styles";
 import LoginContainer from "containers/authcontainers/loginContainer";
 import SignupContainer from "containers/authcontainers/signupContainer";
-import "assets/css/auth.css";
 
-// Define a custom MUI theme
 const theme = createTheme({
   palette: {
     primary: {

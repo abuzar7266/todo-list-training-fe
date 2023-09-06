@@ -15,11 +15,30 @@ import { ISignupInput, ISignupProps } from "interfaces";
 
 const schemaSignup = yup
   .object({
-    username: yup.string().min(5).max(16).required(),
-    password: yup.string().min(5).max(16).required(),
-    email: yup.string().email().required(),
-    firstName: yup.string().required(),
-    lastName: yup.string().min(1).required(),
+    username: yup
+      .string()
+      .required("Username is required")
+      .min(5, "Username must contain atleast 5 characters")
+      .max(16, "Username must not exceed 16 characters"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(5, "Password must contain atleast 5 characters")
+      .max(16, "Username must not exceed 16 characters"),
+    email: yup
+      .string()
+      .required("Email Address is required")
+      .email("Email Address must be valid"),
+    firstName: yup
+      .string()
+      .required("First Name is required")
+      .min(5, "First Name must contain atleast 5 characters")
+      .max(30, "First Name must not exceed 30 characters"),
+    lastName: yup
+      .string()
+      .required("Last Name is required")
+      .min(5, "Last Name must contain atleast 5 characters")
+      .max(30, "Last Name must not exceed 30 characters"),
   })
   .required();
 

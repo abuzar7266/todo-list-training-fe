@@ -12,7 +12,11 @@ import "assets/css/listItem.css";
 
 const listItemSchema = yup
   .object({
-    description: yup.string().min(5).max(30).required(),
+    description: yup
+      .string()
+      .required("Description is required")
+      .min(5, "Description must be at least 5 characters")
+      .max(30, "Description must not exceed 30 characters"),
   })
   .required();
 

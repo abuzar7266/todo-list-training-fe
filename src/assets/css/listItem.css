@@ -15,11 +15,6 @@
 .item-spacing {
   width: 90vw;
 }
-/* @media (max-width: 250px) {
-  .item-spacing {
-    width: 60vw;
-  }
-} */
 .update-field {
   outline: none;
 }

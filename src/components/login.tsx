@@ -7,8 +7,16 @@ import { ILoginInput, ILoginProps } from "interfaces";
 
 const schema = yup
   .object({
-    username: yup.string().min(5).max(16).required(),
-    password: yup.string().min(5).max(16).required(),
+    username: yup
+      .string()
+      .required("Username is required")
+      .min(5, "Username must contain atleast 5 characters")
+      .max(16, "Username must not exceed 16 characters"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(5, "Password must contain atleast 5 characters")
+      .max(16, "Username must not exceed 16 characters"),
   })
   .required();
 
