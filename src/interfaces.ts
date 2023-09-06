@@ -104,6 +104,6 @@ export interface IInitialTodoState {
 }
 
 export interface ITodoProps {
-  fetchTodo: typeof fetchTodo;
+  fetchTodo: any;
   addTask: typeof addTask;
 }

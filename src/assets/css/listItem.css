@@ -5,21 +5,21 @@
   vertical-align: middle;
   text-decoration: line-through;
   font-size: 2vh;
-  line-height: 20px;
+  line-height: 25px;
 }
 .task-text {
   vertical-align: middle;
   font-size: 2vh;
-  line-height: 20px;
+  line-height: 25px;
 }
 .item-spacing {
-  width: 50vw;
+  width: 90vw;
 }
-@media (max-width: 250px) {
+/* @media (max-width: 250px) {
   .item-spacing {
     width: 60vw;
   }
-}
+} */
 .update-field {
   outline: none;
 }

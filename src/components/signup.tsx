@@ -1,9 +1,16 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  makeStyles,
+} from "@mui/material"; // Import MUI components
 import { ISignupInput, ISignupProps } from "interfaces";
 
 const schemaSignup = yup
@@ -40,119 +47,92 @@ const Signup: React.FC<ISignupProps> = ({
     if (user.state === 3) {
       reset();
       refresh();
-      window.location.href = "/auth";
+      navigate("/auth");
     }
   }, [user]);
 
   const onSubmitHandler = (e: ISignupInput) => {
     signupRequest(e);
   };
+
   return (
-    <>
-      <div className="card">
-        <div className="card-header">
-          <h1 className="header-form">Signup</h1>
-        </div>
-        <form action="" onSubmitCapture={handleSubmit(onSubmitHandler)}>
-          <div className="card-body">
-            <label className="signup-form-label">
-              {" "}
-              First Name <span style={{ color: "rgb(99, 0, 0)" }}>*</span>
-            </label>
-            {errors.firstName && (
-              <p className="auth-field-error">{errors.firstName?.message}</p>
-            )}
-            <input
-              type="text"
-              className={
-                errors.firstName
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="First Name"
-              {...register("firstName")}
-            />
-            <label className="signup-form-label">
-              {" "}
-              Last Name <span style={{ color: "rgb(99, 0, 0)" }}>*</span>
-            </label>
-            {errors.lastName && (
-              <p className="auth-field-error">{errors.lastName?.message}</p>
-            )}
-            <input
-              type="text"
-              className={
-                errors.lastName
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="Last Name"
-              {...register("lastName")}
-            />
-            <label className="signup-form-label">
-              {" "}
-              Username <span style={{ color: "rgb(99, 0, 0)" }}>*</span>
-            </label>
-            {errors.username && (
-              <p className="auth-field-error">{errors.username?.message}</p>
-            )}
-            <input
-              type="text"
-              className={
-                errors.username
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="Username"
-              {...register("username")}
-            />
-            <label className="signup-form-label">
-              {" "}
-              Email Address <span style={{ color: "rgb(99, 0, 0)" }}>*</span>
-            </label>
-            {errors.email && (
-              <p className="auth-field-error">{errors.email?.message}</p>
-            )}
-            <input
-              type="text"
-              className={
-                errors.email ? "demographic-field-danger" : "demographic-field"
-              }
-              placeholder="Email"
-              {...register("email")}
-            />
-            <label className="signup-form-label">
-              {" "}
-              Password <span style={{ color: "rgb(99, 0, 0)" }}>*</span>
-            </label>
-            {errors.password && (
-              <p className="auth-field-error">{errors.password?.message}</p>
-            )}
-            <input
-              type="password"
-              className={
-                errors.password
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="Password"
-              {...register("password")}
-            />
-          </div>
-          <input type="submit" className="submit" value="Signup" />
+    <Container maxWidth="sm" style={{ marginTop: "20px" }}>
+      <Paper
+        elevation={3}
+        sx={{ padding: "20px", border: "none", boxShadow: "none" }}
+      >
+        <Typography variant="h4" align="center" gutterBottom>
+          Signup
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
+          <TextField
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.firstName}
+            helperText={errors.firstName?.message}
+            {...register("firstName")}
+          />
+          <TextField
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.lastName}
+            helperText={errors.lastName?.message}
+            {...register("lastName")}
+          />
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.username}
+            helperText={errors.username?.message}
+            {...register("username")}
+          />
+          <TextField
+            label="Email Address"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register("email")}
+          />
+          <TextField
+            type="password"
+            label="Password"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...register("password")}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            style={{ marginTop: "5px", marginBottom: "5px" }}
+          >
+            Signup
+          </Button>
         </form>
-        <div className="submit-btn">
-          <button
-            className="move-btn"
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
+          <Button
+            variant="text"
             onClick={() => {
               setAuth();
             }}
           >
             Go to login page
-          </button>
+          </Button>
         </div>
-      </div>
-    </>
+      </Paper>
+    </Container>
   );
 };
+
 export default Signup;

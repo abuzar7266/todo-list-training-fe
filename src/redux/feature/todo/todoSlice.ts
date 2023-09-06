@@ -21,6 +21,7 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    fetchTodo: () => {},
     fetchTodoSuccess: (state, action) => {
       return {
         ...state,
@@ -74,9 +75,6 @@ export const todoSlice = createSlice({
     deleteFailure: (state) => {
       alert("Failed to delete item");
       return { ...state, loading: false, id: "" };
-    },
-    fetchTodo: (state) => {
-      state.loading = true;
     },
     addTask: (state, action) => {
       state.loading = true;

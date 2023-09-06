@@ -86,3 +86,9 @@
   justify-content: center;
   overflow: hidden;
 }
+.profile-logout-icon {
+  margin-left: 75%;
+  margin-top: 5%;
+  margin-bottom: 100px;
+  cursor: pointer;
+}

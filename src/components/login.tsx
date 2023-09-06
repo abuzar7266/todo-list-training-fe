@@ -1,8 +1,8 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Container, Paper, Typography, TextField, Button } from "@mui/material"; // Import MUI components
 import { ILoginInput, ILoginProps } from "interfaces";
 
 const schema = yup
@@ -31,6 +31,7 @@ const Login: React.FC<ILoginProps> = ({
   useEffect(() => {
     logoutRequest();
   }, []);
+
   useEffect(() => {
     if (user.state === 1) {
       localStorage.setItem("token", user.token);
@@ -45,61 +46,51 @@ const Login: React.FC<ILoginProps> = ({
   };
 
   return (
-    <>
-      <div className="card">
-        <div className="card-header">
-          <h1 className="header-form">Login</h1>
-        </div>
+    <Container maxWidth="sm" style={{ marginTop: "20px" }}>
+      <Paper
+        elevation={3}
+        sx={{ padding: "20px", border: "none", boxShadow: "none" }}
+      >
+        <Typography variant="h4" align="center" gutterBottom>
+          Login
+        </Typography>
         <form onSubmitCapture={handleSubmit(onSubmitHandler)}>
-          <div className="card-body">
-            <label htmlFor="" className="login-form-label">
-              Username
-              {errors.username && (
-                <p className="auth-field-error">{errors.username?.message}</p>
-              )}
-            </label>
-            <input
-              type="text"
-              className={
-                errors.username
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="Username"
-              {...register("username")}
-            />
-            <label htmlFor="" className="login-form-label">
-              Password
-              {errors.password && (
-                <p className="auth-field-error">{errors.password?.message}</p>
-              )}
-            </label>
-            <input
-              type="password"
-              className={
-                errors.password
-                  ? "demographic-field-danger"
-                  : "demographic-field"
-              }
-              placeholder="Password"
-              {...register("password")}
-            />
-          </div>
-          <input type="submit" className="submit" value="Login" />
-        </form>
-        <div className="submit-btn">
-          <button
-            className="move-btn"
-            onClick={() => {
-              setAuth();
-            }}
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.username}
+            helperText={errors.username?.message}
+            {...register("username")}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="dense"
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            {...register("password")}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ marginTop: "5px", marginBottom: "5px" }}
+            fullWidth
           >
+            Login
+          </Button>
+        </form>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
+          <Button variant="text" onClick={() => setAuth()}>
             Go to Signup Page
-          </button>
+          </Button>
         </div>
-      </div>
-    </>
+      </Paper>
+    </Container>
   );
 };
-// export default Login;
+
 export default Login;

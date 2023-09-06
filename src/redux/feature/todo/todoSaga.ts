@@ -10,9 +10,12 @@ import {
 } from "redux/feature/todo/todoSlice";
 import { apiCallRequest } from "redux/api";
 import { ITodoAction } from "interfaces";
+import { API_REQUEST_METHODS } from "../../../constants";
+
+var { GET, PUT, DELETE, POST } = API_REQUEST_METHODS;
 
 export function* FETCH_TODO(): Generator<any, void, any> {
-  const todo = yield call(() => apiCallRequest("/", "GET"));
+  const todo = yield call(() => apiCallRequest("/", GET));
   yield put(
     fetchTodoSuccess(
       todo.todo.map((data: any, idx: number) => {
@@ -27,7 +30,7 @@ export function* FETCH_TODO(): Generator<any, void, any> {
 
 export function* POST_ADD_TODO(action: ITodoAction): Generator<any, void, any> {
   var data = yield call(() =>
-    apiCallRequest("/", "POST", { description: action.payload })
+    apiCallRequest("/", POST, { description: action.payload })
   );
   if (data.status === true) {
     var { description, _id, isChecked } = data.todo;
@@ -45,7 +48,7 @@ export function* POST_ADD_TODO(action: ITodoAction): Generator<any, void, any> {
 
 export function* UPDATE_TODO(action: ITodoAction): Generator<any, void, any> {
   var data = yield call(() =>
-    apiCallRequest(`/${action.payload.id}`, "PUT", {
+    apiCallRequest(`/${action.payload.id}`, PUT, {
       description: action.payload.description,
     })
   );
@@ -66,7 +69,7 @@ export function* MARK_DONE_TODO(
   action: ITodoAction
 ): Generator<any, void, any> {
   var data = yield call(() =>
-    apiCallRequest(`/${action.payload.id}`, "PUT", {
+    apiCallRequest(`/${action.payload.id}`, PUT, {
       isChecked: action.payload.isChecked,
     })
   );
@@ -85,7 +88,7 @@ export function* MARK_DONE_TODO(
 }
 
 export function* DELETE_TODO(action: ITodoAction): Generator<any, void, any> {
-  var data = yield call(() => apiCallRequest(`/${action.payload}`, "DELETE"));
+  var data = yield call(() => apiCallRequest(`/${action.payload}`, DELETE));
   if (data.status) {
     yield put(deleteTaskSuccess({ id: action.payload }));
   } else {
