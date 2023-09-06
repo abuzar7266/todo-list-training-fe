@@ -6,15 +6,16 @@ import {
   signupFailure,
 } from "redux/feature/auth/authSlice";
 import { apiCallRequest } from "redux/api";
-import { IAuthAction } from "interfaces";
-import { API_REQUEST_METHODS, API_TODO_PATH } from "../../../constants";
+import { IAuthAction } from "assets/typescript/interfaces";
+import {
+  API_REQUEST_METHODS,
+  API_TODO_PATH,
+} from "assets/typescript/constants";
 
-debugger;
 var { AUTH_LOGIN_PATH, AUTH_SIGNUP_PATH } = API_TODO_PATH;
 var { POST } = API_REQUEST_METHODS;
 
 export function* LOGIN(action: IAuthAction): Generator<any, void, any> {
-  console.log(AUTH_LOGIN_PATH);
   const response = yield call(() =>
     apiCallRequest(AUTH_LOGIN_PATH, POST, action.payload)
   );

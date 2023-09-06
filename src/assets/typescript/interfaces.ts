@@ -13,7 +13,7 @@ export interface ITaskItem {
 }
 
 export interface IEditState {
-  isEditable: number;
+  isEditable: boolean;
   id: string;
 }
 
@@ -33,7 +33,7 @@ export interface IListItemProps {
   updateTask: typeof updateTask;
   deleteTask: typeof deleteTask;
   taskMarkDone: typeof taskMarkDone;
-  handleEditable: any;
+  handleEditable: (id: string, isEditable: boolean) => void;
 }
 
 export interface IUser {
@@ -50,10 +50,9 @@ export interface ILoginInput {
 
 export interface ILoginProps {
   user: IUser;
-  setAuth: any;
-  loginRequest?: any;
-  logoutRequest?: any;
-  refresh?: any;
+  setAuth: () => void;
+  login: (e: any) => void;
+  logout: () => void;
 }
 
 export interface ISignupInput {
@@ -65,9 +64,9 @@ export interface ISignupInput {
 }
 export interface ISignupProps {
   user: IUser;
-  setAuth: any;
-  signupRequest: any;
-  refresh: any;
+  setAuth: () => void;
+  signup: (e: any) => void;
+  refresh: () => void;
 }
 
 export interface ITaskInput {
@@ -104,6 +103,6 @@ export interface IInitialTodoState {
 }
 
 export interface ITodoProps {
-  fetchTodo: any;
+  fetchTodo: typeof fetchTodo;
   addTask: typeof addTask;
 }

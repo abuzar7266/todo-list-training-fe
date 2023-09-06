@@ -5,7 +5,7 @@ import {
   Container,
   Grid,
   Paper,
-} from "@mui/material"; // Import MUI components
+} from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import LoginContainer from "containers/authcontainers/loginContainer";
 import SignupContainer from "containers/authcontainers/signupContainer";
@@ -16,7 +16,7 @@ const theme = createTheme({
       main: "#007BFF",
     },
     secondary: {
-      main: "#007BFF",
+      main: "#F4C861",
     },
     background: {
       default: "#2F8BAF",

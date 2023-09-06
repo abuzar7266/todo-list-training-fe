@@ -1,24 +1,10 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { SquareOutlined } from "@mui/icons-material";
-import { CheckBox } from "@mui/icons-material";
-import { Edit } from "@mui/icons-material";
-import { Delete } from "@mui/icons-material";
-import { IListItemProps, IUpdateInput } from "interfaces";
+import { SquareOutlined, CheckBox, Edit, Delete } from "@mui/icons-material";
+import { IListItemProps, IUpdateInput } from "assets/typescript/interfaces";
+import { listItemSchema } from "formSchema";
 import "assets/css/listItem.css";
-
-const listItemSchema = yup
-  .object({
-    description: yup
-      .string()
-      .required("Description is required")
-      .min(5, "Description must be at least 5 characters")
-      .max(30, "Description must not exceed 30 characters"),
-  })
-  .required();
 
 const ListItem: React.FC<IListItemProps> = ({
   task,
@@ -39,7 +25,7 @@ const ListItem: React.FC<IListItemProps> = ({
   });
 
   useEffect(() => {
-    handleEditable("", 0);
+    handleEditable("", false);
   }, [task]);
 
   const onSubmitHandler = (e: IUpdateInput) => {

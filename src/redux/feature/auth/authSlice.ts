@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "@src/interfaces";
+import { IUser } from "@src/assets/typescript/interfaces";
+import { USER_AUTH_STATE } from "assets/typescript/constants";
 
 const initialState: IUser = {
   login: false,
@@ -7,6 +8,9 @@ const initialState: IUser = {
   state: 0,
   msg: "",
 };
+
+var { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAILURE, NO_AUTH } =
+  USER_AUTH_STATE;
 
 export const authSlice = createSlice({
   name: "auth",
@@ -19,34 +23,47 @@ export const authSlice = createSlice({
         ...state,
         login: true,
         token: action.payload.token,
-        state: 1,
+        state: LOGIN_SUCCESS,
       };
     },
     loginFailure: (state) => {
       alert("Incorrect username or password");
-      return { ...state, state: 2 };
+      return {
+        ...state,
+        state: LOGIN_FAILURE,
+        msg: "Incorrect username or password",
+      };
     },
     signupSuccess: (state) => {
       alert("Successfuly created an account");
-      return { ...state, state: 3 };
+      return {
+        ...state,
+        state: SIGNUP_SUCCESS,
+        msg: "Successfuly created an account",
+      };
     },
     signupFailure: (state) => {
       alert("Failed to create an account");
-      return { ...state, state: 4 };
+      return {
+        ...state,
+        state: SIGNUP_FAILURE,
+        msg: "Failed to create an account",
+      };
     },
     refresh: (state) => {
       return {
         ...state,
-        state: 0,
+        state: NO_AUTH,
         msg: "",
       };
     },
-    logout: () => {
+    logout: (state) => {
       localStorage.removeItem("token");
       return {
+        ...state,
         login: false,
         token: "",
-        state: 0,
+        state: NO_AUTH,
         msg: "",
       };
     },

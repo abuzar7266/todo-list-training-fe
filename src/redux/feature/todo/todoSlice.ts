@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IInitialTodoState, IItem } from "interfaces";
+import { IInitialTodoState, IItem } from "assets/typescript/interfaces";
 
 const initialState: IInitialTodoState = {
   taskList: [],

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import ListItem from "containers/todoContainers/todoItemContainer";
-import { IListProps, IEditState } from "interfaces";
+import { IListProps, IEditState } from "assets/typescript/interfaces";
 import "assets/css/list.css";
 
 const List: React.FC<IListProps> = ({ taskList, loading, idTodo }) => {
   const [state, setState] = useState<IEditState>({
     id: "",
-    isEditable: 0,
+    isEditable: false,
   });
 
-  const handleEditable = (id: string, isEditable: number) => {
+  const handleEditable = (id: string, isEditable: boolean) => {
     setState({ id: id, isEditable: isEditable });
   };
 

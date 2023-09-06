@@ -2,52 +2,14 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import {
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  makeStyles,
-} from "@mui/material"; // Import MUI components
-import { ISignupInput, ISignupProps } from "interfaces";
+import { Container, Paper, Typography, TextField, Button } from "@mui/material"; // Import MUI components
+import { ISignupInput, ISignupProps } from "@src/assets/typescript/interfaces";
+import { schemaSignup } from "formSchema";
+import { USER_AUTH_STATE } from "assets/typescript/constants";
 
-const schemaSignup = yup
-  .object({
-    username: yup
-      .string()
-      .required("Username is required")
-      .min(5, "Username must contain atleast 5 characters")
-      .max(16, "Username must not exceed 16 characters"),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(5, "Password must contain atleast 5 characters")
-      .max(16, "Username must not exceed 16 characters"),
-    email: yup
-      .string()
-      .required("Email Address is required")
-      .email("Email Address must be valid"),
-    firstName: yup
-      .string()
-      .required("First Name is required")
-      .min(5, "First Name must contain atleast 5 characters")
-      .max(30, "First Name must not exceed 30 characters"),
-    lastName: yup
-      .string()
-      .required("Last Name is required")
-      .min(5, "Last Name must contain atleast 5 characters")
-      .max(30, "Last Name must not exceed 30 characters"),
-  })
-  .required();
+var { SIGNUP_SUCCESS } = USER_AUTH_STATE;
 
-const Signup: React.FC<ISignupProps> = ({
-  refresh,
-  signupRequest,
-  user,
-  setAuth,
-}) => {
+const Signup: React.FC<ISignupProps> = ({ refresh, signup, user, setAuth }) => {
   const navigate = useNavigate();
   const {
     register,
@@ -63,7 +25,7 @@ const Signup: React.FC<ISignupProps> = ({
   }, []);
 
   useEffect(() => {
-    if (user.state === 3) {
+    if (user.state === SIGNUP_SUCCESS) {
       reset();
       refresh();
       navigate("/auth");
@@ -71,7 +33,7 @@ const Signup: React.FC<ISignupProps> = ({
   }, [user]);
 
   const onSubmitHandler = (e: ISignupInput) => {
-    signupRequest(e);
+    signup(e);
   };
 
   return (

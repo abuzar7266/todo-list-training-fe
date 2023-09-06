@@ -9,8 +9,8 @@ import {
   deleteFailure,
 } from "redux/feature/todo/todoSlice";
 import { apiCallRequest } from "redux/api";
-import { ITodoAction } from "interfaces";
-import { API_REQUEST_METHODS } from "../../../constants";
+import { ITodoAction } from "@src/assets/typescript/interfaces";
+import { API_REQUEST_METHODS } from "assets/typescript/constants";
 
 var { GET, PUT, DELETE, POST } = API_REQUEST_METHODS;
 

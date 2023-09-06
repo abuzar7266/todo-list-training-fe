@@ -1,55 +1,36 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { Container, Paper, Typography, TextField, Button } from "@mui/material"; // Import MUI components
-import { ILoginInput, ILoginProps } from "interfaces";
+import { ILoginInput, ILoginProps } from "assets/typescript/interfaces";
+import { schemaLogin } from "formSchema";
+import { USER_AUTH_STATE } from "assets/typescript/constants";
 
-const schema = yup
-  .object({
-    username: yup
-      .string()
-      .required("Username is required")
-      .min(5, "Username must contain atleast 5 characters")
-      .max(16, "Username must not exceed 16 characters"),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(5, "Password must contain atleast 5 characters")
-      .max(16, "Username must not exceed 16 characters"),
-  })
-  .required();
+var { LOGIN_SUCCESS } = USER_AUTH_STATE;
 
-const Login: React.FC<ILoginProps> = ({
-  user,
-  loginRequest,
-  logoutRequest,
-  refresh,
-  setAuth,
-}) => {
+const Login: React.FC<ILoginProps> = ({ user, login, logout, setAuth }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaLogin),
   });
 
   useEffect(() => {
-    logoutRequest();
+    logout();
   }, []);
 
   useEffect(() => {
-    if (user.state === 1) {
+    if (user.state === LOGIN_SUCCESS) {
       localStorage.setItem("token", user.token);
-      refresh();
       window.location.href = "/todo";
     }
   }, [user.state]);
 
   const onSubmitHandler = (e: ILoginInput) => {
-    loginRequest(e);
+    login(e);
     reset();
   };
 

@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      signupRequest: signup,
+      signup,
       refresh,
     },
     dispatch

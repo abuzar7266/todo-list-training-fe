@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Container,
   TextField,
@@ -7,23 +10,10 @@ import {
   CardContent,
   Card,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import LogoutIcon from "@mui/icons-material/Logout";
 import TodoListContainer from "containers/todoContainers/todoListContainer";
-import { ITaskInput, ITodoProps } from "interfaces";
-
-const schema = yup
-  .object({
-    description: yup
-      .string()
-      .required("Description is required")
-      .min(5, "Description must be at least 5 characters")
-      .max(30, "Description must not exceed 30 characters"),
-  })
-  .required();
+import { ITaskInput, ITodoProps } from "assets/typescript/interfaces";
+import { schemaTodo } from "formSchema";
 
 const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
   const navigate = useNavigate();
@@ -33,7 +23,7 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaTodo),
   });
 
   const onSubmitHandler = (e: ITaskInput) => {
@@ -49,7 +39,7 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/");
     fetchTodo();
-  }, [navigate, fetchTodo]);
+  }, []);
 
   return (
     <Container
