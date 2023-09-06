@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ListItem from "containers/todoContainers/todoItemContainer";
-import { IListProps, IEditState } from "../interfaces";
+import { IListProps, IEditState } from "interfaces";
 import "assets/css/list.css";
 
 const List: React.FC<IListProps> = ({ taskList, loading, idTodo }) => {

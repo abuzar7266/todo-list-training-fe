@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ISignupInput, ISignupProps } from "../interfaces";
+import { ISignupInput, ISignupProps } from "interfaces";
+
 const schemaSignup = yup
   .object({
     username: yup.string().min(5).max(16).required(),
@@ -34,6 +35,7 @@ const Signup: React.FC<ISignupProps> = ({
   useEffect(() => {
     if (localStorage.getItem("token")) navigate("/todo");
   }, []);
+
   useEffect(() => {
     if (user.state === 3) {
       reset();
@@ -41,6 +43,7 @@ const Signup: React.FC<ISignupProps> = ({
       window.location.href = "/auth";
     }
   }, [user]);
+
   const onSubmitHandler = (e: ISignupInput) => {
     signupRequest(e);
   };

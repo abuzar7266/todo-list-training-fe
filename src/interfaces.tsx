@@ -1,3 +1,10 @@
+import {
+  addTask,
+  fetchTodo,
+  updateTask,
+  deleteTask,
+  taskMarkDone,
+} from "redux/feature/todo/todoSlice";
 
 export interface ITaskItem {
   description: string;
@@ -23,9 +30,9 @@ export interface IUpdateInput {
 export interface IListItemProps {
   task: ITaskItem;
   state: IEditState;
-  updateTask: any;
-  deleteTask: any;
-  taskMarkDone: any;
+  updateTask: typeof updateTask;
+  deleteTask: typeof deleteTask;
+  taskMarkDone: typeof taskMarkDone;
   handleEditable: any;
 }
 
@@ -94,4 +101,9 @@ export interface IInitialTodoState {
   taskList: IItem[];
   loading: boolean;
   id: string;
+}
+
+export interface ITodoProps {
+  fetchTodo: typeof fetchTodo;
+  addTask: typeof addTask;
 }

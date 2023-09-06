@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IUser } from "@src/interfaces";
 
-interface IUser {
-  login: boolean;
-  token: string;
-  state: number;
-  msg: string;
-}
 const initialState: IUser = {
   login: false,
   token: "",
@@ -17,8 +12,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action) => {},
-    signup: (state, action) => {},
+    login: () => {},
+    signup: () => {},
     loginSuccess: (state, action) => {
       return {
         ...state,

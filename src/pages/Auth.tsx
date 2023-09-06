@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import LoginContainer from "containers/authcontainers/loginContainer";
 import SignupContainer from "containers/authcontainers/signupContainer";
 import "assets/css/auth.css";
+
 const Auth: React.FC = () => {
   const [onLogged, setOnLogged] = useState<number>(0);
   const setAuth = () => {
@@ -11,7 +12,11 @@ const Auth: React.FC = () => {
   return (
     <>
       <Container className="container" fluid>
-        {onLogged ? <SignupContainer setAuth={setAuth} /> : <LoginContainer setAuth={setAuth} />}
+        {onLogged ? (
+          <SignupContainer setAuth={setAuth} />
+        ) : (
+          <LoginContainer setAuth={setAuth} />
+        )}
       </Container>
     </>
   );

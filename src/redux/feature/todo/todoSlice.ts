@@ -10,6 +10,7 @@ const initialState: IInitialTodoState = {
 function removeTodoById(taskList: IItem[], Tid: string) {
   return taskList.filter(({ id }) => id !== Tid);
 }
+
 function updateTodoById(taskList: IItem[], updatedTask: IItem) {
   var index = taskList.findIndex(({ id }) => id === updatedTask.id);
   taskList[index] = { ...updatedTask };

@@ -1,6 +1,6 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TodoContainer from "containers/todoContainers/todoContainer";
 import Auth from "pages/Auth";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (

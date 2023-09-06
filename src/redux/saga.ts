@@ -1,4 +1,5 @@
 import { takeEvery } from "redux-saga/effects";
+import { LOGIN, SIGNUP } from "redux/feature/auth/authSaga";
 import {
   POST_ADD_TODO,
   FETCH_TODO,
@@ -6,7 +7,7 @@ import {
   MARK_DONE_TODO,
   DELETE_TODO,
 } from "redux/feature/todo/todoSaga";
-import { LOGIN, SIGNUP } from "redux/feature/auth/authSaga";
+
 function* watchAll(): Generator<any, void, any> {
   yield takeEvery("todo/fetchTodo", FETCH_TODO);
   yield takeEvery("todo/addTask", POST_ADD_TODO);

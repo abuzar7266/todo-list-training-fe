@@ -5,15 +5,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { addTask, fetchTodo } from "redux/feature/todo/todoSlice";
 import { ITaskInput } from "interfaces";
 import TodoListContainer from "containers/todoContainers/todoListContainer";
+import { ITodoProps } from "interfaces";
 import "assets/css/todo.css";
-
-interface ITodoProps {
-  fetchTodo: typeof fetchTodo;
-  addTask: typeof addTask;
-}
 
 const schema = yup
   .object({
@@ -66,7 +61,11 @@ const Todo: React.FC<ITodoProps> = ({ fetchTodo, addTask }) => {
             <form action="" onSubmit={handleSubmit(onSubmitHandler)}>
               <div className="task-card">
                 <h1 className="task-card-heading">My Todo</h1>
-                { errors.description && isDirty && isSubmitted && <p className="item-field-error">{errors.description?.message}</p>}
+                {errors.description && isDirty && isSubmitted && (
+                  <p className="item-field-error">
+                    {errors.description?.message}
+                  </p>
+                )}
                 <input
                   placeholder="Input task name and then enter to add"
                   type="text"

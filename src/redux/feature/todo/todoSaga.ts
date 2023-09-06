@@ -33,9 +33,9 @@ export function* POST_ADD_TODO(action: ITodoAction): Generator<any, void, any> {
     var { description, _id, isChecked } = data.todo;
     yield put(
       addTaskSuccess({
-        description: description,
+        description,
         id: _id,
-        isChecked: isChecked,
+        isChecked,
       })
     );
   } else {
@@ -53,9 +53,9 @@ export function* UPDATE_TODO(action: ITodoAction): Generator<any, void, any> {
     var { description, _id, isChecked } = data.todo;
     yield put(
       updateTaskSuccess({
-        description: description,
+        description,
         id: _id,
-        isChecked: isChecked,
+        isChecked,
       })
     );
   } else {
@@ -74,9 +74,9 @@ export function* MARK_DONE_TODO(
     var { description, _id, isChecked } = data.todo;
     yield put(
       updateTaskSuccess({
-        description: description,
+        description,
         id: _id,
-        isChecked: isChecked,
+        isChecked,
       })
     );
   } else {
@@ -86,6 +86,9 @@ export function* MARK_DONE_TODO(
 
 export function* DELETE_TODO(action: ITodoAction): Generator<any, void, any> {
   var data = yield call(() => apiCallRequest(`/${action.payload}`, "DELETE"));
-  if (data.status) yield put(deleteTaskSuccess({ id: action.payload }));
-  else yield put(deleteFailure());
+  if (data.status) {
+    yield put(deleteTaskSuccess({ id: action.payload }));
+  } else {
+    yield put(deleteFailure());
+  }
 }

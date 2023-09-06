@@ -9,11 +9,9 @@ import { apiCallRequest } from "redux/api";
 import { IAuthAction } from "interfaces";
 
 export function* LOGIN(action: IAuthAction): Generator<any, void, any> {
-  console.log(action);
   const response = yield call(() =>
     apiCallRequest("/user/login", "POST", action.payload)
   );
-  console.log(response);
   if (response.token ?? 0) {
     yield put(loginSuccess({ token: response.token }));
   } else {

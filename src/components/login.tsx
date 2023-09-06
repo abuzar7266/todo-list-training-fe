@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ILoginInput, ILoginProps } from "../interfaces";
+import { ILoginInput, ILoginProps } from "interfaces";
+
 const schema = yup
   .object({
     username: yup.string().min(5).max(16).required(),
@@ -26,10 +27,7 @@ const Login: React.FC<ILoginProps> = ({
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmitHandler = (e: ILoginInput) => {
-    loginRequest(e);
-    reset();
-  };
+
   useEffect(() => {
     logoutRequest();
   }, []);
@@ -40,6 +38,12 @@ const Login: React.FC<ILoginProps> = ({
       window.location.href = "/todo";
     }
   }, [user.state]);
+
+  const onSubmitHandler = (e: ILoginInput) => {
+    loginRequest(e);
+    reset();
+  };
+
   return (
     <>
       <div className="card">
