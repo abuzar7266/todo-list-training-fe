@@ -1,4 +1,4 @@
-import mongoose, { Error, Mongoose } from "mongoose";
+var mongoose = require("mongoose");
 import { Response } from "express";
 require("module-alias/register");
 import { ITodoList, ITodoListResponse } from "interfaces";

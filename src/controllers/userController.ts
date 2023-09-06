@@ -1,5 +1,5 @@
+import mongoose from "mongoose";
 import { Request, Response } from "express";
-import { Error, Mongoose } from "mongoose";
 var passport = require("passport");
 require("module-alias/register");
 import { IAuthRequest, IAuthResponse } from "interfaces";
@@ -18,7 +18,7 @@ const signup = (
       email: req.body.email,
     }),
     req.body.password,
-    (err: Error) => {
+    (err: mongoose.Error) => {
       if (err) {
         res.statusCode = 500;
         res.setHeader("Content-Type", "application/json");

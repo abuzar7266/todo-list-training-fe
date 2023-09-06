@@ -1,4 +1,5 @@
 var express = require("express");
+import { Request, Response, NextFunction } from "express";
 var path = require("path");
 var logger = require("morgan");
 var session = require("express-session");
@@ -53,7 +54,7 @@ app.use(
 app.use("/", todoRouter);
 app.use("/user", userRouter);
 
-app.use(function (err: any, req: any, res: any, next: any) {
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
   res.status(err.status || 500);

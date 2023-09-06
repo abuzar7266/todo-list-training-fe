@@ -24,3 +24,11 @@ export interface IAuthRequest {
   lastName?: string;
   email?: string;
 }
+
+export interface IUser {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  username?: string;
+  _id?: string;
+}

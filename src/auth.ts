@@ -1,6 +1,7 @@
+import { IUser } from "interfaces";
+import { Error } from "mongoose";
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
-
 var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
 var jwt = require("jsonwebtoken"); // used to create, sign, and verify token
@@ -12,7 +13,7 @@ passport.use(new LocalStrategy(userSchema.authenticate()));
 passport.serializeUser(userSchema.serializeUser());
 passport.deserializeUser(userSchema.deserializeUser());
 
-const getToken = function (user: any) {
+const getToken = function (user: IUser) {
   return jwt.sign(user, process.env.SESSION_SECRET, { expiresIn: 3600 });
 };
 
@@ -22,14 +23,14 @@ const jwtPassport = passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: "ahsdjhasdhagsjdgajsdgjhagsdjhgasdhgajhsgdjhagsdhgasd",
     },
-    async function fetchCredential(jwt_payload: any, done: any) {
+    async function fetchCredential(jwt_payload: any, done: any): Promise<void> {
       await userSchema
         .findOne({ _id: jwt_payload._id })
-        .then((res: any) => {
+        .then((res: IUser) => {
           if (res) return done(null, { _id: res._id });
           else return done(null, false);
         })
-        .catch((err: any) => {
+        .catch((err: Error) => {
           return done(err, false);
         });
     }
