@@ -2,21 +2,9 @@ import { Request, Response } from "express";
 import { Error, Mongoose } from "mongoose";
 var passport = require("passport");
 require("module-alias/register");
+import { IAuthRequest, IAuthResponse } from "interfaces";
 var User = require("@models/userSchema");
 var authenticate = require("@root/auth");
-
-interface IAuthResponse {
-  status?: string;
-  success?: boolean;
-  token?: string;
-}
-interface IAuthRequest {
-  username: string;
-  password: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-}
 
 const signup = (
   req: Request<{}, {}, IAuthRequest>,

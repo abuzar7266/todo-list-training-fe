@@ -1,20 +1,8 @@
 import mongoose, { Error, Mongoose } from "mongoose";
 import { Response } from "express";
 require("module-alias/register");
+import { ITodoList, ITodoListResponse } from "interfaces";
 var TodoSchema = require("@models/todoSchema");
-
-interface ITodoList {
-  _id: mongoose.Schema.Types.ObjectId;
-  description: string;
-  isChecked: Boolean;
-  creationTime: Date;
-  completedTime: Date;
-  user: mongoose.Schema.Types.ObjectId;
-}
-interface ITodoListResponse {
-  todo?: ITodoList[];
-  status?: boolean;
-}
 
 var getAllTodos = async (req: any, res: Response<ITodoListResponse>) => {
   try {
